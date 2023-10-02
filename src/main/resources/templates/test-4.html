@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>퀴즈</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: '돋움', Dotum, sans-serif;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .quiz {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .choices {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .choice {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            text-decoration: underline; /* 밑줄 추가 */
+            cursor: pointer;
+        }
+
+        .choice.selected {
+            color: blue; /* 클릭된 보기의 글자 색 변경 */
+        }
+    </style>
+</head>
+<body>
+<h1>퀴즈</h1>
+<div class="quiz">4. 글을 토대로, 아래 문장에 적힌 내용의 옳고 그름을 바르게 짝지은 것은?</div>
+<div class="quiz">“세계에서 가장 고도가 높은 위스키 증류소에서 마시는 술은 어떤 맛일까?
+    스위스 생모리츠(St. Moritz)에 있는 위스키 증류소는 피츠 코르바취(Piz Corvasch) 산 해발 3303m에 위치해 있으며, 세계에서 가장 고도가 높은 위스키 증류소다. 이 고도에서는 해수면보다 10도 정도 낮은 온도에서 증류 과정이 일어난다.”
+</div>
+<div class="quiz">[문장 1] 스위스 생모리츠는 해발고도가 가장 높은 도시다.</div>
+<div class="quiz">[문장 2] 위스키의 풍미와 품질은 해발고도와 관련이 높다.</div>
+<ul class="choices">
+    <li class="choice" data-number="1" onclick="selectChoice(1)">① O, O</li>
+    <li class="choice" data-number="2" onclick="selectChoice(2)">② O, X</li>
+    <li class="choice" data-number="3" onclick="selectChoice(3)">③ X, O</li>
+    <li class="choice" data-number="4" onclick="selectChoice(4)">④ X, X</li>
+</ul>
+<button onclick="quizResult()">종료</button>
+
+<script>
+    let selectedChoice = null;
+
+    function selectChoice(choiceNumber) {
+        // 이전에 선택한 보기의 스타일 초기화
+        if (selectedChoice !== null) {
+            document.querySelector(`.choice[data-number="${selectedChoice}"]`).classList.remove("selected");
+        }
+
+        // 선택한 보기 스타일 변경
+        selectedChoice = choiceNumber;
+        document.querySelector(`.choice[data-number="${choiceNumber}"]`).classList.add("selected");
+    }
+
+    function quizResult() {
+        // 선택한 보기를 서버로 전송하거나 다음 퀴즈 페이지로 이동하는 로직 추가
+        window.location.href = '/test/result';
+    }
+</script>
+</body>
+</html>

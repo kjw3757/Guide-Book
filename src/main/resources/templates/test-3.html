@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>퀴즈</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: '돋움', Dotum, sans-serif;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    .quiz {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .choice {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      text-decoration: underline; /* 밑줄 추가 */
+      cursor: pointer;
+    }
+
+    .choice.selected {
+      color: blue; /* 클릭된 보기의 글자 색 변경 */
+    }
+  </style>
+</head>
+<body>
+<h1>퀴즈</h1>
+<div class="quiz">3. 다음 글에서 밑줄 친 ㉠한정적의 뜻으로 가장 가까운 것을 고르세요.</div>
+<div class="quiz">생활 속 여러 분야에서 로봇이 조금씩 활용되고 있습니다. 아직은 로봇이 할 수 있는 일이 ㉠한정적이지만 시간이 흐를수록 로봇의 역할은 늘어날 거에요. 기술의 발달로 로봇은 계속 발전하고 있으니까요. 미국의 한 방송사에서는 미래의 로봇이 대신할 직업으로서 약사, 변호사, 운전기사, 우주 비행사를 꼽기도 했어요. 또 어떤 직업이 로봇에 의해 대체될까요?</div>
+<ul class="choices">
+  <li class="choice" data-number="1" onclick="selectChoice(1)">① 전혀 없다.</li>
+  <li class="choice" data-number="2" onclick="selectChoice(2)">② 정해져 있다.</li>
+  <li class="choice" data-number="3" onclick="selectChoice(3)">③ 끝이 없다.</li>
+</ul>
+<button onclick="nextQuestion()">다음</button>
+
+<script>
+  let selectedChoice = null;
+
+  function selectChoice(choiceNumber) {
+    // 이전에 선택한 보기의 스타일 초기화
+    if (selectedChoice !== null) {
+      document.querySelector(`.choice[data-number="${selectedChoice}"]`).classList.remove("selected");
+    }
+
+    // 선택한 보기 스타일 변경
+    selectedChoice = choiceNumber;
+    document.querySelector(`.choice[data-number="${choiceNumber}"]`).classList.add("selected");
+  }
+
+  function nextQuestion() {
+    // 선택한 보기를 서버로 전송하거나 다음 퀴즈 페이지로 이동하는 로직 추가
+    window.location.href = '/test/4';
+  }
+</script>
+</body>
+</html>

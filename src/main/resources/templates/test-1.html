@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>퀴즈</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: '돋움', Dotum, sans-serif;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    .quiz {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .choice {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 100px;
+      cursor: pointer;
+    }
+
+    .choice.selected {
+      background-color: lightblue; /* 선택한 보기의 배경색 변경 */
+    }
+
+    .underline {
+      text-decoration: underline; /* 밑줄 추가 */
+    }
+  </style>
+</head>
+<body>
+<h1>퀴즈</h1>
+<div class="quiz">1. 다음 문장에서 밑줄 친 말과 바꾸어 쓰기에 알맞지 않은 것을 고르세요. </div>
+<div class="quiz">선생님은 무심한 <span class="underline">척</span> 달미가 우려 놓은 차를 마셨다.</div>
+<ul class="choices">
+  <li class="choice" data-number="1" onclick="selectChoice(1)">① 듯</li>
+  <li class="choice" data-number="2" onclick="selectChoice(2)">② 체</li>
+  <li class="choice" data-number="3" onclick="selectChoice(3)">③ 양</li>
+  <li class="choice" data-number="4" onclick="selectChoice(4)">④ 적</li>
+</ul>
+<button onclick="nextQuestion()">다음</button>
+
+<script>
+  let selectedChoice = null;
+
+  function selectChoice(choiceNumber) {
+    // 선택한 보기의 스타일 변경
+    selectedChoice = choiceNumber;
+    // 모든 보기의 스타일 초기화
+    const choices = document.querySelectorAll('.choice');
+    choices.forEach(choice => {
+      choice.classList.remove('selected');
+    });
+    // 선택한 보기에 스타일 적용
+    document.querySelector(`.choice[data-number="${choiceNumber}"]`).classList.add("selected");
+  }
+
+  function nextQuestion() {
+    // 보기를 선택하지 않은 경우 안내창 표시
+    if (selectedChoice === null) {
+      alert('정답을 선택해주세요.');
+      return;
+    }
+
+    // 선택한 숫자를 서버로 전송
+    saveAnswer(selectedChoice);
+
+    // 다음 퀴즈 페이지로 이동
+    window.location.href = '/test/2'; // '/test/2'로 이동하도록 수정
+  }
+
+  function saveAnswer(selectedChoice) {
+    // 정답과 사용자가 선택한 숫자를 서버로 전송 (AJAX 사용)
+    fetch('/api/quiz/submit-answer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        answer: 1, // 정답
+        memberAnswer: selectedChoice, // 사용자가 선택한 숫자
+        quizId: 1, // 퀴즈 ID
+      }),
+    })
+            .then(response => {
+              if (response.ok) {
+                // 서버 응답이 성공인 경우 다음 퀴즈 페이지로 이동
+                window.location.href = '/test/2';
+              } else {
+                console.error('서버 응답 오류:', response.status);
+              }
+            })
+            .catch(error => {
+              console.error('오류 발생:', error);
+            });
+  }
+</script>
+</body>
+</html>
